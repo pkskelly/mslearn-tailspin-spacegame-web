@@ -4,7 +4,7 @@ pool:
     - npm
 
 variables: 
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Debug'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '2.1.505'
 
@@ -42,7 +42,16 @@ steps:
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Release'
-    
+
+
+- task: DotNetCoreCLI@2
+displayName: 'Run unit tests'
+    inputs: 
+        command: 'test'
+        arguments: '--no-build --configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)/${{ parameters.BuildConfiguration }}'
+        publishTestResults: true
+        projects: '**/*.csproj'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publish project - $(buildConfiguration)'
   inputs:
