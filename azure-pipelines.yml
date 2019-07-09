@@ -1,1 +1,2 @@
-pool: 'Ubuntu-16.04'
+pool: 
+  vmImage: 'Ubuntu-16.04'
